@@ -2,6 +2,8 @@ require 'bundler/setup'
 require 'sinatra'
 require "sinatra/reloader" if development?
 require 'open-uri'
+require 'json'
+require 'haml'
 
 get '/' do
   @display_time = Time.now.strftime("%H:%M")
