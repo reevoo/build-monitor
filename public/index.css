@@ -25,6 +25,12 @@ footer {
   color: white;
 }
 
+.in-progress {
+  border-radius: 10px;
+  background: orange;
+  color: white;
+}
+
 .box {
   margin: 20px;
   padding: 20px;

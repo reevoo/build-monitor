@@ -5,23 +5,65 @@ require 'open-uri'
 
 get '/' do
   @display_time = Time.now.strftime("%H:%M")
-  @broken_builds = CI.new.broken_builds
+  ci = CI.new
+  @broken_projects = ci.broken_projects
+  @in_progress_projects = ci.in_progress_projects
+  @recently_built_projects = ci.recently_built_projects
   haml :index
 end
 
 class CI
-  def initialize(url="http://ci/api/json")
+  def initialize(url="http://ci/api/json?tree=jobs[name,color,builds[timestamp,result]]&pretty")
     @url = url
   end
 
-  def broken_builds
-    status["jobs"].select{|job| job["color"] == 'red' }
+  def broken_projects
+    projects_with_color('red')
+  end
+
+  def in_progress_projects
+    projects_with_color('blue_anime')
+  end
+
+  def recently_built_projects(n=5)
+    projects.sort_by{|project| project.latest_build.timestamp}.reverse.first(n)
   end
 
 private
   attr_reader :url
 
+  def projects
+    @projects ||= status["jobs"].map{|hash| Project.new(hash)}
+  end
+
+  def projects_with_color(color)
+    projects.select{|project| project.color == color}
+  end
+
   def status
-    JSON.parse(open(url).read)
+    @status ||= JSON.parse(open(url).read)
+  end
+end
+
+class Project
+  attr_reader :name, :color
+
+  def initialize(opts={})
+    @name = opts.fetch("name")
+    @color = opts.fetch("color")
+    @builds = opts.fetch("builds").map{|hash| Build.new(hash)}
+  end
+
+  def latest_build
+    @builds.first
+  end
+end
+
+class Build
+  attr_reader :result, :timestamp
+
+  def initialize(opts={})
+    @result = opts.fetch("result").downcase.to_sym
+    @timestamp = Time.at(opts.fetch("timestamp").to_i)
   end
 end
