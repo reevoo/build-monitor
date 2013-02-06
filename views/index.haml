@@ -9,11 +9,12 @@
         - @broken_projects.each do |project|
           .box.broken
             = project.name
-      %section
-        %h2 In progress
-        - @in_progress_projects.each do |project|
-          .box.in-progress
-            = project.name
+      - unless @in_progress_projects.empty?
+        %section
+          %h2 In progress
+          - @in_progress_projects.each do |project|
+            .box.in-progress
+              = project.name
       %section
         %h2 Recent
         - @recently_built_projects.each do |project|
