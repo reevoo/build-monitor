@@ -1,6 +1,5 @@
 body {
   font-family: 'Helvetica Neue', 'Arial', sans-serif;
-  background-color: yellow;
   margin: 0;
 }
 
@@ -17,10 +16,18 @@ footer {
   clear: both;
 }
 
+.time {
+}
+
+.broken {
+  border-radius: 10px;
+  background: red;
+  color: white;
+}
+
 .box {
-  border: 1px solid green;
   margin: 20px;
-  padding: 50px;
+  padding: 20px;
   font-size: 144px;
   font-weight: bolder;
   text-align: center;

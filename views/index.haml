@@ -4,5 +4,8 @@
     %link(rel="stylesheet" href="index.css")
   %body
     .container
-      %footer.box
+      - @broken_builds.each do |build|
+        .box.broken
+          = build["name"]
+      %footer.box.time
         = @display_time
