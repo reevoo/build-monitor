@@ -1,0 +1,27 @@
+body {
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  background-color: yellow;
+  margin: 0;
+}
+
+footer {
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.clear-fix {
+  clear: both;
+}
+
+.box {
+  border: 1px solid green;
+  margin: 20px;
+  padding: 50px;
+  font-size: 144px;
+  font-weight: bolder;
+  text-align: center;
+}
