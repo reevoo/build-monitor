@@ -1,0 +1,9 @@
+!!! 5
+%html
+  %head
+    %meta(http-equiv="refresh" content="5")
+    %link(rel="stylesheet" href="index.css")
+  %body
+    %h1 Error connecting to the CI. Retrying...
+
+    %pre=h env['sinatra.error'].inspect

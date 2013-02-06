@@ -5,6 +5,13 @@ require 'open-uri'
 require 'json'
 require 'haml'
 
+set :raise_errors, false
+set :show_exceptions, false
+
+def h(html)
+  CGI.escapeHTML html
+end
+
 get '/' do
   @display_time = Time.now.strftime("%H:%M")
   ci = CI.new
@@ -12,6 +19,11 @@ get '/' do
   @in_progress_projects = ci.in_progress_projects
   @recently_built_projects = ci.recently_built_projects
   haml :index
+end
+
+
+error 500 do
+  haml :error
 end
 
 class CI
