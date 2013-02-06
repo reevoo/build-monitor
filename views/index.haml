@@ -19,7 +19,7 @@
       %section
         %h2 Recent
         - @recently_built_projects.each do |project|
-          .box.recent{class: project.latest_build.result.to_s}
+          .box.recent{class: project.latest_complete_build.result.to_s}
             = project.name
       %footer.box.time
         = @display_time

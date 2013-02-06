@@ -27,20 +27,20 @@ error 500 do
 end
 
 class CI
-  def initialize(url="http://ci/api/json?tree=jobs[name,color,builds[timestamp,result]]&pretty")
+  def initialize(url="http://ci/api/json?tree=jobs[name,builds[timestamp,result]]")
     @url = url
   end
 
   def broken_projects
-    projects_with_color('red')
+    projects.select{|project| project.latest_complete_build.failed?}
   end
 
   def in_progress_projects
-    projects_with_color('blue_anime')
+    projects.select(&:build_in_progress?)
   end
 
   def recently_built_projects(n=5)
-    projects.sort_by{|project| project.latest_build.timestamp}.reverse.first(n)
+    projects.sort_by{|project| project.latest_complete_build.timestamp}.reverse.first(n)
   end
 
 private
@@ -50,26 +50,25 @@ private
     @projects ||= status["jobs"].map{|hash| Project.new(hash)}
   end
 
-  def projects_with_color(color)
-    projects.select{|project| project.color == color}
-  end
-
   def status
     @status ||= JSON.parse(open(url).read)
   end
 end
 
 class Project
-  attr_reader :name, :color
+  attr_reader :name
 
   def initialize(opts={})
     @name = opts.fetch("name")
-    @color = opts.fetch("color")
     @builds = opts.fetch("builds").map{|hash| Build.new(hash)}
   end
 
-  def latest_build
-    @builds.first
+  def latest_complete_build
+    @builds.find(&:complete?)
+  end
+
+  def build_in_progress?
+    @builds.first.in_progress?
   end
 end
 
@@ -77,7 +76,20 @@ class Build
   attr_reader :result, :timestamp
 
   def initialize(opts={})
-    @result = opts.fetch("result").downcase.to_sym
+    @result = opts.fetch("result")
+    @result = @result.downcase.to_sym if @result
     @timestamp = Time.at(opts.fetch("timestamp").to_i)
+  end
+
+  def complete?
+    !in_progress?
+  end
+
+  def in_progress?
+    !@result
+  end
+
+  def failed?
+    complete? && result != :success
   end
 end
