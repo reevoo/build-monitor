@@ -44,4 +44,6 @@ section {
   font-size: 100px;
   font-weight: bolder;
   text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
