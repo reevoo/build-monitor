@@ -6,6 +6,13 @@ body {
 footer {
 }
 
+section {
+  background: #deebf5;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
 .container {
   position: relative;
   width: 100%;
