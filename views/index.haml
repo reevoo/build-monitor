@@ -5,11 +5,12 @@
     %link(rel="stylesheet" href="index.css")
   %body
     .container
-      %section
-        %h2 Borked
-        - @broken_projects.each do |project|
-          .box.failure
-            = project.name
+      - unless @broken_projects.empty?
+        %section
+          %h2 Borked
+          - @broken_projects.each do |project|
+            .box.failure
+              = project.name
       - unless @in_progress_projects.empty?
         %section
           %h2 In progress
