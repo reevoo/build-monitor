@@ -1,0 +1,5 @@
+%section
+  %h2 Recent
+  - @recently_built_projects.each do |project|
+    .box.recent{class: project.latest_complete_build.result.to_s}
+      = project.name

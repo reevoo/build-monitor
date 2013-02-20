@@ -6,24 +6,9 @@
   %body
     .container
       .column
-        - unless @broken_projects.empty?
-          %section
-            %h2 Broken
-            - @broken_projects.each do |project|
-              .box.failure
-                = project.name
-        .box.time
-          = @display_time
+        = haml :broken_projects
+        = haml :time
       .column
-        - unless @in_progress_projects.empty?
-          %section
-            %h2 In progress
-            - @in_progress_projects.each do |project|
-              .box.in-progress
-                = project.name
+        = haml :in_progress_projects
       .column
-        %section
-          %h2 Recent
-          - @recently_built_projects.each do |project|
-            .box.recent{class: project.latest_complete_build.result.to_s}
-              = project.name
+        = haml :recently_built_projects

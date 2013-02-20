@@ -1,0 +1,6 @@
+- unless @in_progress_projects.empty?
+  %section
+    %h2 In progress
+    - @in_progress_projects.each do |project|
+      .box.in-progress
+        = project.name
