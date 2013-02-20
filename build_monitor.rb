@@ -4,6 +4,8 @@ require "sinatra/reloader" if development?
 require 'open-uri'
 require 'json'
 require 'haml'
+require 'yaml'
+require_relative 'pull_requests'
 
 set :raise_errors, false
 set :show_exceptions, false
@@ -12,15 +14,20 @@ def h(html)
   CGI.escapeHTML html
 end
 
+def github_config
+  @github_config ||= YAML.load(File.read("config/github.yml"))
+end
+
 get '/' do
   @display_time = Time.now.strftime("%H:%M")
   ci = CI.new
+  pr = PullRequests.new(github_config)
   @broken_projects = ci.broken_projects
   @in_progress_projects = ci.in_progress_projects
   @recently_built_projects = ci.recently_built_projects
+  @pull_requests = pr.pull_requests
   haml :index
 end
-
 
 error 500 do
   haml :error

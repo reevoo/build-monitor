@@ -1,0 +1,10 @@
+%section
+  %h2 Pull Requests
+  - @pull_requests.each do |project, requests|
+    .project-requests
+      %h3=project
+      %ul
+        - requests.each do |request|
+          %li
+            %img{src: request.user_avatar_url}
+            %p=request.title

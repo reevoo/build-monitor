@@ -15,6 +15,34 @@ h2 {
   padding: 10px;
 }
 
+h3 {
+  margin-top: 0;
+}
+
+.project-requests {
+  background: #bdecb6;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: table;
+  margin: 10px;
+}
+
+li p {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0 10px;
+}
+
 .container {
   width: 100%;
 }
