@@ -5,22 +5,25 @@
     %link(rel="stylesheet" href="index.css")
   %body
     .container
-      - unless @broken_projects.empty?
+      .column
+        - unless @broken_projects.empty?
+          %section
+            %h2 Broken
+            - @broken_projects.each do |project|
+              .box.failure
+                = project.name
+        .box.time
+          = @display_time
+      .column
+        - unless @in_progress_projects.empty?
+          %section
+            %h2 In progress
+            - @in_progress_projects.each do |project|
+              .box.in-progress
+                = project.name
+      .column
         %section
-          %h2 Borked
-          - @broken_projects.each do |project|
-            .box.failure
+          %h2 Recent
+          - @recently_built_projects.each do |project|
+            .box.recent{class: project.latest_complete_build.result.to_s}
               = project.name
-      - unless @in_progress_projects.empty?
-        %section
-          %h2 In progress
-          - @in_progress_projects.each do |project|
-            .box.in-progress
-              = project.name
-      %section
-        %h2 Recent
-        - @recently_built_projects.each do |project|
-          .box.recent{class: project.latest_complete_build.result.to_s}
-            = project.name
-      %footer.box.time
-        = @display_time
