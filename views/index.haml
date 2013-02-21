@@ -9,6 +9,9 @@
         = haml :broken_projects
         = haml :time
       .column
-        = haml :in_progress_projects
+        - if @in_progress_projects.empty?
+          = haml :recently_built_projects
+        - else
+          = haml :in_progress_projects
       .column
         = haml :pull_requests
