@@ -14,8 +14,12 @@ def h(html)
   CGI.escapeHTML html
 end
 
+def config_file_name
+  File.join(File.dirname(__FILE__), "config", "github.yml")
+end
+
 def github_config
-  @github_config ||= YAML.load(File.read("config/github.yml"))
+  @github_config ||= YAML.load(File.read(config_file_name))
 end
 
 get '/' do
