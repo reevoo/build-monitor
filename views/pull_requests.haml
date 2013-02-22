@@ -6,5 +6,5 @@
       %ul
         - requests.each do |request|
           %li
-            %img{src: request.user_avatar_url}
+            %img{src: request.user_avatar_url, width: 80, height: 80}
             %p=request.title
