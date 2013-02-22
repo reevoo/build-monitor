@@ -1,9 +1,9 @@
 build-monitor
 =============
 
-A very simple build monitor for Jenkins. Clone it, rack it up.
+A very simple build monitor for Jenkins. Also shows open pull requests for a GitHub organisation. Clone it, rack it up.
 
-<img src="http://pics.evilgeek.co.uk/658e5b" width="400" alt="Build Monitor in the wild" />
+<img src="http://pics.evilgeek.co.uk/793eb1" width="400" alt="Build Monitor in the wild" />
 
 Pull requests welcome.
 
