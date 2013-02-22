@@ -1,6 +1,5 @@
-- unless @broken_projects.empty?
-  %section
-    %h2 Broken
-    - @broken_projects.each do |project|
-      .box.failure
-        = project.name
+%section
+  %h2 Broken
+  - @broken_projects.each do |project|
+    .box.failure
+      = project.name

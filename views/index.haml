@@ -6,7 +6,10 @@
   %body
     .container
       .column
-        = haml :broken_projects
+        - if @broken_projects.empty?
+          = haml :all_passing
+        - else
+          = haml :broken_projects
         = haml :time
       .column
         - if @in_progress_projects.empty?
