@@ -44,7 +44,7 @@ class CI
   end
 
   def broken_projects
-    projects.select{|project| project.latest_complete_build.failed?}
+    non_ignored_projects.select{|project| project.latest_complete_build.failed?}
   end
 
   def in_progress_projects
@@ -52,7 +52,9 @@ class CI
   end
 
   def recently_built_projects(n=5)
-    projects.sort_by{|project| project.latest_complete_build.timestamp}.reverse.first(n)
+    non_ignored_projects.sort_by { |project|
+      project.latest_complete_build.timestamp
+    }.reverse.first(n)
   end
 
 private
@@ -62,6 +64,10 @@ private
     @projects ||= status["jobs"].map do |hash|
       Project.new(hash.merge(ignored: ignored_projects.include?(hash["name"])))
     end
+  end
+
+  def non_ignored_projects
+    projects.delete_if(&:ignored?)
   end
 
   def status
