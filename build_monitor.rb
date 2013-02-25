@@ -24,7 +24,7 @@ end
 
 get '/' do
   @display_time = Time.now.strftime("%H:%M")
-  ci = CI.new
+  ci = CI.new(ignored_projects: config[:ignored_projects])
   pr = PullRequests.new(config)
   @broken_projects = ci.broken_projects
   @in_progress_projects = ci.in_progress_projects
@@ -38,8 +38,9 @@ error 500 do
 end
 
 class CI
-  def initialize(url="http://ci/api/json?tree=jobs[name,builds[timestamp,result]]")
-    @url = url
+  def initialize(opts={})
+    @url = opts.fetch(:url, "http://ci/api/json?tree=jobs[name,builds[timestamp,result]]")
+    @ignored_projects = opts[:ignored_projects] || []
   end
 
   def broken_projects
@@ -55,10 +56,12 @@ class CI
   end
 
 private
-  attr_reader :url
+  attr_reader :url, :ignored_projects
 
   def projects
-    @projects ||= status["jobs"].map{|hash| Project.new(hash)}
+    @projects ||= status["jobs"].map do |hash|
+      Project.new(hash.merge(ignored: ignored_projects.include?(hash["name"])))
+    end
   end
 
   def status
@@ -72,6 +75,7 @@ class Project
   def initialize(opts={})
     @name = opts.fetch("name")
     @builds = opts.fetch("builds").map{|hash| Build.new(hash)}
+    @ignored = opts.fetch(:ignored)
   end
 
   def latest_complete_build
@@ -80,6 +84,10 @@ class Project
 
   def build_in_progress?
     @builds.first.in_progress?
+  end
+
+  def ignored?
+    @ignored
   end
 end
 
