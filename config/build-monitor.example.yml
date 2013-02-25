@@ -1,2 +1,5 @@
 :oauth_token: my_oauth_token
 :org_name: my_organisation_name
+:ignored_projects:
+  - project_1
+  - project_2
