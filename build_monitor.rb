@@ -15,7 +15,7 @@ def h(html)
 end
 
 def config_file_name
-  File.join(File.dirname(__FILE__), "config", "github.yml")
+  File.join(File.dirname(__FILE__), "config", "build-monitor.yml")
 end
 
 def github_config
