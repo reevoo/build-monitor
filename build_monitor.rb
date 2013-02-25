@@ -18,14 +18,14 @@ def config_file_name
   File.join(File.dirname(__FILE__), "config", "build-monitor.yml")
 end
 
-def github_config
-  @github_config ||= YAML.load(File.read(config_file_name))
+def config
+  @config ||= YAML.load(File.read(config_file_name))
 end
 
 get '/' do
   @display_time = Time.now.strftime("%H:%M")
   ci = CI.new
-  pr = PullRequests.new(github_config)
+  pr = PullRequests.new(config)
   @broken_projects = ci.broken_projects
   @in_progress_projects = ci.in_progress_projects
   @recently_built_projects = ci.recently_built_projects
