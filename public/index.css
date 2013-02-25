@@ -36,7 +36,8 @@ ul {
 
 li {
   display: table;
-  margin: 10px;
+  padding: 5px;
+  margin: 5px;
 }
 
 li p {
@@ -44,6 +45,14 @@ li p {
   vertical-align: middle;
   padding: 0 10px;
   font-size: 24px;
+}
+
+.build_failure, .build_error {
+  border: 3px dashed red;
+}
+
+.build_pending {
+  border: 3px dashed yellow;
 }
 
 .container {

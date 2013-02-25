@@ -5,6 +5,6 @@
       %h3=project
       %ul
         - requests.each do |request|
-          %li
+          %li{class: "build_#{request.build_status}"}
             %img{src: request.user_avatar_url, width: 80, height: 80}
             %p=request.title
