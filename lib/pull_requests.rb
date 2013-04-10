@@ -4,12 +4,12 @@ PullRequest = Struct.new(:title, :user_avatar_url, :build_status)
 
 class PullRequests
   def initialize(opts={})
-    oauth_token = opts.fetch(:oauth_token)
+    @oauth_token = opts.fetch(:oauth_token)
     @org_name = opts.fetch(:org_name)
-    @github = Github.new(oauth_token: oauth_token)
   end
 
   def pull_requests
+    @github = Github.new(oauth_token: oauth_token)
     @pull_requests ||= repo_names.each_with_object({}) do |repo_name, hash|
       pulls = github.pull_requests.list(org_name, repo_name)
       requests = pulls.map do |pull|
@@ -18,13 +18,23 @@ class PullRequests
           pull.user.avatar_url,
           build_status(repo_name, pull.head.sha)
         )
-      end
+      end.sort_by(&:title)
       hash[repo_name] = requests unless requests.empty?
     end
+  rescue Github::Error::ServiceError => e
+    {
+      'error' => [
+        PullRequest.new(
+          'Github connection error',
+          'https://github.com/images/error/angry_unicorn.png',
+          'failure'
+        )
+      ]
+    }
   end
 
 private
-  attr_reader :org_name, :github
+  attr_reader :org_name, :github, :oauth_token
 
   def repo_names
     @repo_names ||= github.
