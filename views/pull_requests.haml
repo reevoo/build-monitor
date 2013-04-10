@@ -2,9 +2,13 @@
   %h2 Pull Requests
   - @pull_requests.each do |project, requests|
     .project-requests
-      %h3=project
-      %ul
+      %h3
+        = "#{project} (#{requests.count})"
+      %table
         - requests.each do |request|
-          %li{class: "build_#{request.build_status}"}
-            %img{src: request.user_avatar_url, width: 80, height: 80}
-            %p=request.title
+          %tr{class: "build_#{request.build_status}"}
+            %td.set
+              %img{src: request.user_avatar_url, width: 30, height: 30}
+            %td.title
+              %div
+                =request.title

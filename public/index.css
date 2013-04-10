@@ -22,37 +22,52 @@ h3 {
 }
 
 .project-requests {
-  background: #bdecb6;
+  background: #f8f8f8;
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
 }
 
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-li {
-  display: table;
+table tr {
   padding: 5px;
   margin: 5px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-li p {
-  display: table-cell;
-  vertical-align: middle;
+table td.title div {
+  vertical-align: top;
   padding: 0 10px;
+  margin: 0px;
   font-size: 24px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+}
+table {
+  width: 100%;
+  table-layout:fixed;
+  color: green;
+}
+table, table tr, table td {
+  border: none;
+}
+table td.set {
+  width: 30px;
+}
+table td {
+  text-align: left;
 }
 
 .build_failure, .build_error {
   border: 3px dashed red;
+  color: red;
 }
 
 .build_pending {
   border: 3px dashed yellow;
+  color: yellow;
 }
 
 .container {
