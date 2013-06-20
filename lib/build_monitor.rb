@@ -13,7 +13,7 @@ require 'build'
 
 set :raise_errors, false
 set :show_exceptions, false
-set :root, File.join(File.dirname(__FILE__), '..')
+# set :root, File.join(File.dirname(__FILE__), '..')
 # set :root, Proc.new { File.join(root, "views") }
 # set :public_folder, Proc.new { File.join(root, "public") }
 
