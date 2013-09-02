@@ -1,6 +1,6 @@
 class CI
   def initialize(opts={})
-    @url = opts.fetch(:url, "http://kira/api/json?tree=jobs[name,builds[timestamp,result]]")
+    @url = opts.fetch(:url, "http://ci/api/json?tree=jobs[name,builds[timestamp,result]]")
     @ignored_projects = opts[:ignored_projects] || []
   end
 
