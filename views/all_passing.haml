@@ -1,4 +1,7 @@
 %section
   .box.success
-    %img(src="http://placekitten.com/300/#{300 + rand(10)}")
+    - if rand(2) == 0
+      %img(src="http://placekitten.com/300/#{300 + rand(10)}")
+    - else
+      %img(src="http://stream1.gifsoup.com/view/437149/roomba-kittens-o.gif")
     EVERYTHING IS GOOD IN THE WORLD AND EVERYTHING IS PASSING
