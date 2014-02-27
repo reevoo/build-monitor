@@ -3,6 +3,7 @@ class Build
 
   def initialize(opts={})
     @result = opts.fetch("result")
+    @building = opts.fetch("building")
     @result = @result.downcase.to_sym if @result
     @timestamp = Time.at(opts.fetch("timestamp").to_i)
   end
@@ -12,7 +13,7 @@ class Build
   end
 
   def in_progress?
-    !@result
+    @building
   end
 
   def failed?
