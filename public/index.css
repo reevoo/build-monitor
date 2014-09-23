@@ -66,8 +66,8 @@ table td {
 }
 
 .build_pending {
-  border: 3px dashed yellow;
-  color: yellow;
+  border: 3px dashed orange;
+  color: orange;
 }
 
 .container {
