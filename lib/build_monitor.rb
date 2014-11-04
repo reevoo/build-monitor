@@ -37,6 +37,7 @@ get '/' do
   @in_progress_projects = ci.in_progress_projects
   @recently_built_projects = ci.recently_built_projects
   @pull_requests = pr.pull_requests
+  @pull_request_count = @pull_requests.reduce(0) { |memo, (_, requests)| memo + requests.count }
   haml :index
 end
 
