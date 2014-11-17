@@ -1,5 +1,7 @@
-%section{style: "border: #{@pull_request_count}px solid red"}
-  %h2 Pull Requests
+- border_size = @pull_request_days * 0.2
+%section{style: "border: #{border_size}px solid red"}
+  %h2
+    = "Pull Requests (#{@pull_request_count})"
   - @pull_requests.each do |project, requests|
     .project-requests
       %h3

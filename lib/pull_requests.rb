@@ -1,6 +1,7 @@
 require 'github_api'
+require 'time_difference'
 
-PullRequest = Struct.new(:title, :user_avatar_url, :build_status)
+PullRequest = Struct.new(:title, :user_avatar_url, :build_status, :days_open)
 
 class PullRequests
   def initialize(opts={})
@@ -16,7 +17,8 @@ class PullRequests
         PullRequest.new(
           pull.title,
           pull.user.avatar_url,
-          build_status(repo_name, pull.head.sha)
+          build_status(repo_name, pull.head.sha),
+          days_open(pull.created_at)
         )
       end.sort_by(&:title)
       hash[repo_name] = requests unless requests.empty?
@@ -27,7 +29,8 @@ class PullRequests
         PullRequest.new(
           'Github connection error',
           'https://github.com/images/error/angry_unicorn.png',
-          'failure'
+          'failure',
+          100
         )
       ]
     }
@@ -51,5 +54,9 @@ private
     else
       ""
     end
+  end
+
+  def days_open(created_time)
+    TimeDifference.between(Time.now, Time.parse(created_time)).in_days
   end
 end
