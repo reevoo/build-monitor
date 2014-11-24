@@ -13,4 +13,4 @@
               %img{src: request.user_avatar_url, width: 30, height: 30}
             %td.title
               %div
-                =request.title
+                = "#{request.title} [#{request.days_open.to_i}d]"
