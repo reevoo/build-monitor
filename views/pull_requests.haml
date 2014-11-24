@@ -13,4 +13,9 @@
               %img{src: request.user_avatar_url, width: 30, height: 30}
             %td.title
               %div
-                = "#{request.title} [#{request.days_open.to_i}d]"
+                - title_text = "#{request.title} [#{request.days_open.to_i}d]"
+                - if request.days_open.to_i > 14
+                  %b
+                    = title_text
+                - else
+                  = title_text
