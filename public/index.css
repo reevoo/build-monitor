@@ -21,6 +21,11 @@ h3 {
   font-size: 36px;
 }
 
+p {
+  margin: 0;
+  padding-left: 10px;
+}
+
 .project-requests {
   background: #f8f8f8;
   margin: 10px;

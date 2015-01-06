@@ -2,6 +2,7 @@
 %section{style: "border: #{border_size}px solid red"}
   %h2
     = "Pull Requests (#{@pull_request_count})"
+  %p Days since last update in [brackets]
   - @pull_requests.each do |project, requests|
     .project-requests
       %h3
@@ -13,8 +14,8 @@
               %img{src: request.user_avatar_url, width: 30, height: 30}
             %td.title
               %div
-                - title_text = "#{request.title} [#{request.days_open.to_i}d]"
-                - if request.days_open.to_i > 14
+                - title_text = "#{request.title} [#{request.days_since_last_update.to_i}d]"
+                - if request.days_since_last_update.to_i > 14
                   %b
                     = title_text
                 - else

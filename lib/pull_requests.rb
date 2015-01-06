@@ -1,7 +1,7 @@
 require 'github_api'
 require 'time_difference'
 
-PullRequest = Struct.new(:title, :user_avatar_url, :build_status, :days_open)
+PullRequest = Struct.new(:title, :user_avatar_url, :build_status, :days_since_last_update)
 
 class PullRequests
   def initialize(opts={})
@@ -18,7 +18,7 @@ class PullRequests
           pull.title,
           pull.user.avatar_url,
           build_status(repo_name, pull.head.sha),
-          days_open(pull.created_at)
+          days_since(pull.updated_at)
         )
       end.sort_by(&:title)
       hash[repo_name] = requests unless requests.empty?
@@ -56,7 +56,7 @@ private
     end
   end
 
-  def days_open(created_time)
-    TimeDifference.between(Time.now, Time.parse(created_time)).in_days
+  def days_since(time)
+    TimeDifference.between(Time.now, Time.parse(time)).in_days
   end
 end
