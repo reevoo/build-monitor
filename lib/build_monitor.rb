@@ -40,7 +40,7 @@ get '/' do
 
   @flattened_pull_requests = @pull_requests.values.flatten
   @pull_request_count = @flattened_pull_requests.count
-  @pull_request_days = @flattened_pull_requests.reduce(0) { |memo, request| memo + request.days_open }
+  @pull_request_days = @flattened_pull_requests.reduce(0) { |memo, request| memo + request.days_since_last_update }
 
   haml :index
 end
