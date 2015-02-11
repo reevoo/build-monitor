@@ -27,6 +27,10 @@ private
     end
   end
 
+  def ignore_project?(name)
+    ignored_projects.include?(name) || name.match /branches/i
+  end
+
   def non_ignored_projects
     projects.delete_if(&:ignored?)
   end
