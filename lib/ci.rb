@@ -23,12 +23,12 @@ private
 
   def projects
     @projects ||= status["jobs"].map do |hash|
-      Project.new(hash.merge(ignored: ignored_projects.include?(hash["name"])))
+      Project.new(hash.merge(ignored: ignore_project?(hash["name"])))
     end
   end
 
   def ignore_project?(name)
-    ignored_projects.include?(name) || name.match /branches/i
+    ignored_projects.include?(name) || name.match(/branches/i)
   end
 
   def non_ignored_projects
