@@ -1,7 +1,7 @@
-require 'github_api'
+require 'octokit'
 require 'time_difference'
 
-PullRequest = Struct.new(:title, :user_avatar_url, :build_status, :days_since_last_update)
+PullRequest = Struct.new(:title, :repo_name, :user_avatar_url, :build_status, :days_since_last_update)
 
 class PullRequests
   def initialize(opts={})
@@ -10,53 +10,47 @@ class PullRequests
   end
 
   def pull_requests
-    @github = Github.new(oauth_token: oauth_token)
-    @pull_requests ||= repo_names.each_with_object({}) do |repo_name, hash|
-      pulls = github.pull_requests.list(org_name, repo_name)
-      requests = pulls.map do |pull|
-        PullRequest.new(
-          pull.title,
-          pull.user.avatar_url,
-          build_status(repo_name, pull.head.sha),
-          days_since(pull.updated_at)
-        )
-      end.sort_by(&:title)
-      hash[repo_name] = requests unless requests.empty?
-    end
-  rescue Github::Error::ServiceError => e
-    {
-      'error' => [
-        PullRequest.new(
-          'Github connection error',
-          'https://github.com/images/error/angry_unicorn.png',
-          'failure',
-          100
-        )
-      ]
-    }
+    init_github!
+
+    @pull_requests ||= open_pull_requests
+      .group_by { |pr| pr.repo_name }
   end
 
 private
   attr_reader :org_name, :github, :oauth_token
 
-  def repo_names
-    @repo_names ||= github.
-                      repos.
-                      list(org: org_name, per_page: 100).
-                      select {|repo| repo.open_issues > 0}.
-                      map(&:name)
+  def init_github!   
+    @github = Octokit::Client.new(
+      access_token: oauth_token,
+      auto_paginate: true
+    )
   end
 
-  def build_status(repo_name, sha)
-    status = github.repos.statuses.list(org_name, repo_name, sha).first
-    if status
-      status.state
-    else
-      ""
-    end
+  def open_pull_requests
+    github
+      .search_issues('is:open is:pr user:reevoo')
+      .items
+      .map { |search_result|
+        pull_request = github.get(search_result.pull_request.url)
+
+        PullRequest.new(
+          search_result.title,
+          pull_request.base.repo.name,
+          search_result.user.avatar_url,
+          build_status(pull_request),
+          days_since(search_result.updated_at)
+        )
+      }
+  end
+
+  def build_status(pull_request)
+    statuses = pull_request.rels[:statuses].get.data
+
+    return '' unless statuses.any?
+    statuses.first.state
   end
 
   def days_since(time)
-    TimeDifference.between(Time.now, Time.parse(time)).in_days
+    TimeDifference.between(Time.now, time).in_days
   end
 end
