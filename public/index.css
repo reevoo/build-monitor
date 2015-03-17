@@ -105,6 +105,10 @@ table td {
   overflow: hidden;
 }
 
+.box .status {
+  font-size: 36px;
+}
+
 .success {
   background: green;
 }

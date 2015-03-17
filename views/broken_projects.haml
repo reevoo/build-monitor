@@ -9,4 +9,4 @@
     .box.failure
       = project.name
       .status
-        = "Broken for #{project.builds_since_last_success} builds"
+        = "Broken for #{project.builds_since_last_success} build#{project.builds_since_last_success != 1 ? 's' : ''}"
