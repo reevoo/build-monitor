@@ -15,6 +15,12 @@ class Project
     @builds.first.in_progress?
   end
 
+  def builds_since_last_success
+    @builds
+      .take_while { |build| build.failed? }
+      .count
+  end
+
   def ignored?
     @ignored
   end

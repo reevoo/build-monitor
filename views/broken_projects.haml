@@ -8,3 +8,5 @@
   - @broken_projects.each do |project|
     .box.failure
       = project.name
+      .status
+        = "Broken for #{project.builds_since_last_success} builds"
