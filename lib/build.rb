@@ -19,4 +19,8 @@ class Build
   def failed?
     complete? && result != :success
   end
+
+  def success?
+    complete? && result == :success
+  end
 end
