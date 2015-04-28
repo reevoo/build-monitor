@@ -14,9 +14,7 @@
               %img{src: request.user_avatar_url, width: 30, height: 30}
             %td.title
               %div
-                - title_text = "#{request.title} [#{request.days_since_last_update.to_i}d]"
-                - if request.days_since_last_update.to_i > 14
-                  %b
-                    = title_text
-                - else
-                  = title_text
+                %span{class: pr_title_class(request)}
+                  = "#{request.title} [#{request.days_since_last_update.to_i}d]"
+                %span{class: pr_modifications_class(request)}
+                  = "[+- #{request.modifications}]"

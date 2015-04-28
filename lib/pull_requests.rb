@@ -1,7 +1,7 @@
 require 'octokit'
 require 'time_difference'
 
-PullRequest = Struct.new(:title, :repo_name, :user_avatar_url, :build_status, :days_since_last_update)
+PullRequest = Struct.new(:title, :repo_name, :user_avatar_url, :build_status, :days_since_last_update, :modifications)
 
 class PullRequests
   def initialize(opts={})
@@ -19,7 +19,7 @@ class PullRequests
 private
   attr_reader :org_name, :github, :oauth_token
 
-  def init_github!   
+  def init_github!
     @github = Octokit::Client.new(
       access_token: oauth_token,
       auto_paginate: true
@@ -38,7 +38,8 @@ private
           pull_request.base.repo.name,
           search_result.user.avatar_url,
           build_status(pull_request),
-          days_since(search_result.updated_at)
+          days_since(search_result.updated_at),
+          pull_request.additions + pull_request.deletions,
         )
       }
   end

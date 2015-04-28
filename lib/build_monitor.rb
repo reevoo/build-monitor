@@ -10,16 +10,13 @@ require 'pull_requests'
 require 'ci'
 require 'project'
 require 'build'
+require 'helpers'
 
 set :raise_errors, false
 set :show_exceptions, false
 # set :root, File.join(File.dirname(__FILE__), '..')
 # set :root, Proc.new { File.join(root, "views") }
 # set :public_folder, Proc.new { File.join(root, "public") }
-
-def h(html)
-  CGI.escapeHTML html
-end
 
 def config_file_name
   File.join(File.dirname(__FILE__), "..", "config", "build-monitor.yml")
