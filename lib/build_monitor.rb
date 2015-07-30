@@ -27,17 +27,18 @@ helpers do
   def random_good_image
     [
       "http://placekitten.com/300/#{301 + rand(10)}",
-      "http://1-ps.googleusercontent.com/h/www.catgifpage.com/gifs/224.gif.pagespeed.ce.8Ox__cf1NE.gif",
-      "http://1-ps.googleusercontent.com/h/www.catgifpage.com/gifs/223.gif.pagespeed.ce.74u-hdg7bt.gif",
-      "http://stream1.gifsoup.com/view/437149/roomba-kittens-o.gif",
+      'http://stream1.gifsoup.com/view/437149/roomba-kittens-o.gif',
+      'http://i.imgur.com/tAlRlje.gif',
     ].sample
   end
 
   def random_bad_image
     [
-      "http://laughingthroughthepain.files.wordpress.com/2011/03/crazy-cat.gif",
-      "http://i.imgur.com/C9EtF56.gif",
-      "http://i.imgur.com/tAgFfQa.gif",
+      'http://laughingthroughthepain.files.wordpress.com/2011/03/crazy-cat.gif',
+      'http://i.imgur.com/C9EtF56.gif',
+      'http://i.imgur.com/tAgFfQa.gif',
+      'http://i.imgur.com/2XaQEnK.gif',
+      'http://i.imgur.com/dLaAl1M.gif',
     ].sample
   end
 end
