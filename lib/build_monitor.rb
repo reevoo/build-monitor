@@ -14,9 +14,6 @@ require 'helpers'
 
 set :raise_errors, false
 set :show_exceptions, false
-# set :root, File.join(File.dirname(__FILE__), '..')
-# set :root, Proc.new { File.join(root, "views") }
-# set :public_folder, Proc.new { File.join(root, "public") }
 
 def config_file_name
   File.join(File.dirname(__FILE__), "..", "config", "build-monitor.yml")
@@ -24,6 +21,25 @@ end
 
 def config
   @config ||= YAML.load(File.read(config_file_name))
+end
+
+helpers do
+  def random_good_image
+    [
+      "http://placekitten.com/300/#{301 + rand(10)}",
+      "http://1-ps.googleusercontent.com/h/www.catgifpage.com/gifs/224.gif.pagespeed.ce.8Ox__cf1NE.gif",
+      "http://1-ps.googleusercontent.com/h/www.catgifpage.com/gifs/223.gif.pagespeed.ce.74u-hdg7bt.gif",
+      "http://stream1.gifsoup.com/view/437149/roomba-kittens-o.gif",
+    ].sample
+  end
+
+  def random_bad_image
+    [
+      "http://laughingthroughthepain.files.wordpress.com/2011/03/crazy-cat.gif",
+      "http://i.imgur.com/C9EtF56.gif",
+      "http://i.imgur.com/tAgFfQa.gif",
+    ].sample
+  end
 end
 
 get '/' do
