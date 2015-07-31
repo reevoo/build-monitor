@@ -1,10 +1,6 @@
 %section
   %h2 Broken
-  - case rand(2)
-  - when 0
-    %img(src="http://laughingthroughthepain.files.wordpress.com/2011/03/crazy-cat.gif")
-  - when 1
-    %img(src="http://i.imgur.com/C9EtF56.gif")
+  %img(src=random_bad_image)
   - @broken_projects.each do |project|
     .box.failure
       = project.name
