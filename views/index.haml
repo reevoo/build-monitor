@@ -10,11 +10,11 @@
           = haml :all_passing
         - else
           = haml :broken_projects
-        = haml :time
       .column
         - if @in_progress_projects.empty?
           = haml :recently_built_projects
         - else
           = haml :in_progress_projects
+        = haml :time
       .column
         = haml :pull_requests
