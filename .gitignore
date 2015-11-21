@@ -1,3 +1,4 @@
 /tmp/*
 config/build-monitor.yml
 config/deploy.rb
+config/data/*

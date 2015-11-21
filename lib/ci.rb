@@ -1,7 +1,11 @@
+require 'tempfile'
+require 'fileutils'
+
 class CI
   def initialize(opts={})
     @url = opts.fetch(:url, "http://ci/api/json?tree=jobs[name,builds[timestamp,result,building]]")
     @ignored_projects = opts[:ignored_projects] || []
+    @data_dir = opts.fetch(:data_dir)
   end
 
   def broken_projects
@@ -18,8 +22,15 @@ class CI
     }.reverse.first(n)
   end
 
+  def update
+    file = Tempfile.new('ci')
+    file.write(open(url).read)
+    file.close
+    FileUtils.mv(file.path, "#{data_dir}/ci.json")
+  end
+
 private
-  attr_reader :url, :ignored_projects
+  attr_reader :url, :ignored_projects, :data_dir
 
   def projects
     @projects ||= status["jobs"].map do |hash|
@@ -36,6 +47,6 @@ private
   end
 
   def status
-    @status ||= JSON.parse(open(url).read)
+    @status ||= JSON.parse(File.read("#{data_dir}/ci.json"))
   end
 end

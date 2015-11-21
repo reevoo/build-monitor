@@ -45,7 +45,7 @@ end
 
 get '/' do
   @display_time = Time.now.strftime("%H:%M")
-  ci = CI.new(ignored_projects: config[:ignored_projects])
+  ci = CI.new(config)
   pr = PullRequests.new(config)
   @broken_projects = ci.broken_projects
   @in_progress_projects = ci.in_progress_projects

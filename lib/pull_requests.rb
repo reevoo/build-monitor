@@ -1,23 +1,32 @@
 require 'octokit'
 require 'time_difference'
-
-PullRequest = Struct.new(:title, :repo_name, :user_avatar_url, :build_status, :days_since_last_update, :modifications)
+require 'json'
+require 'tempfile'
+require 'fileutils'
 
 class PullRequests
   def initialize(opts={})
     @oauth_token = opts.fetch(:oauth_token)
     @org_name = opts.fetch(:org_name)
+    @data_dir = opts.fetch(:data_dir)
   end
 
   def pull_requests
-    init_github!
+    json = JSON.parse(File.read("#{data_dir}/prs.json"))
+    Hash[json.map { |proj, prs| [proj, prs.map { |pr| Struct.new(*pr.keys.map(&:intern)).new(*pr.values)} ]}]
+  end
 
-    @pull_requests ||= open_pull_requests
-      .group_by { |pr| pr.repo_name }
+  def update
+    init_github!
+    data = JSON.dump(open_pull_requests.group_by { |pr| pr[:repo_name] })
+    file = Tempfile.new('prs')
+    file.write(data)
+    file.close
+    FileUtils.mv(file.path, "#{data_dir}/prs.json")
   end
 
 private
-  attr_reader :org_name, :github, :oauth_token
+  attr_reader :org_name, :github, :oauth_token, :data_dir
 
   def init_github!
     @github = Octokit::Client.new(
@@ -33,14 +42,14 @@ private
       .map { |search_result|
         pull_request = github.get(search_result.pull_request.url)
 
-        PullRequest.new(
-          search_result.title,
-          pull_request.base.repo.name,
-          search_result.user.avatar_url,
-          build_status(pull_request),
-          days_since(search_result.updated_at),
-          pull_request.additions + pull_request.deletions,
-        )
+        {
+          title: search_result.title,
+          repo_name: pull_request.base.repo.name,
+          user_avatar_url: search_result.user.avatar_url,
+          build_status: build_status(pull_request),
+          days_since_last_update: days_since(search_result.updated_at),
+          modifications: pull_request.additions + pull_request.deletions,
+        }
       }
   end
 

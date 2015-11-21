@@ -3,3 +3,4 @@
 :ignored_projects:
   - project_1
   - project_2
+:data_dir: config/data
