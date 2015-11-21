@@ -11,6 +11,8 @@ require 'ci'
 require 'project'
 require 'build'
 require 'helpers'
+require 'kitten'
+require 'seasonal_fun'
 
 set :raise_errors, false
 set :show_exceptions, false
@@ -21,26 +23,6 @@ end
 
 def config
   @config ||= YAML.load(File.read(config_file_name))
-end
-
-helpers do
-  def random_good_image
-    [
-      "http://placekitten.com/300/#{301 + rand(10)}",
-      'http://stream1.gifsoup.com/view/437149/roomba-kittens-o.gif',
-      'http://i.imgur.com/tAlRlje.gif',
-    ].sample
-  end
-
-  def random_bad_image
-    [
-      'http://laughingthroughthepain.files.wordpress.com/2011/03/crazy-cat.gif',
-      'http://i.imgur.com/C9EtF56.gif',
-      'http://i.imgur.com/tAgFfQa.gif',
-      'http://i.imgur.com/2XaQEnK.gif',
-      'http://i.imgur.com/dLaAl1M.gif',
-    ].sample
-  end
 end
 
 get '/' do

@@ -1,6 +1,6 @@
 %section
   %h2 Broken
-  %img(src=random_bad_image)
+  %img.kitten(src="#{Kitten.url(:broken)}")
   - @broken_projects.each do |project|
     .box.failure
       = project.name

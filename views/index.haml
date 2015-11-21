@@ -3,7 +3,8 @@
   %head
     %meta(http-equiv="refresh" content="30")
     %link(rel="stylesheet" href="index.css")
-  %body
+    %link(rel="stylesheet" href="xmas/style.css")
+  %body{ class: SeasonalFun.season }
     .container
       .column
         - if @broken_projects.empty?

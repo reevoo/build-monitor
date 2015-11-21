@@ -26,6 +26,13 @@ p {
   padding-left: 10px;
 }
 
+img.kitten {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+
 .project-requests {
   background: #f8f8f8;
   margin: 10px;
