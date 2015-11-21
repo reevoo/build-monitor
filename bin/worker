@@ -5,14 +5,10 @@ $LOAD_PATH << File.expand_path('../lib', File.dirname(__FILE__))
 
 require 'pull_requests'
 require 'ci'
-require 'yaml'
-
-config_file_name = File.join(File.dirname(__FILE__), "..", "config", "build-monitor.yml")
-config = YAML.load(File.read(config_file_name))
 
 datasources = [
-  CI.new(config),
-  PullRequests.new(config),
+  CI.new,
+  PullRequests.new,
 ]
 
 loop do
