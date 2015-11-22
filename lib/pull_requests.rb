@@ -4,30 +4,27 @@ require 'json'
 require 'tempfile'
 require 'fileutils'
 require 'config'
+require 'data_repository'
 
 class PullRequests
   def initialize(opts=Conf.config)
     @oauth_token = opts.fetch(:oauth_token)
     @org_name = opts.fetch(:org_name)
-    @data_dir = opts.fetch(:data_dir)
   end
 
   def pull_requests
-    json = JSON.parse(File.read("#{data_dir}/prs.json"))
+    json = JSON.parse(DataRepository.read('prs'))
     Hash[json.map { |proj, prs| [proj, prs.map { |pr| Struct.new(*pr.keys.map(&:intern)).new(*pr.values)} ]}]
   end
 
   def update
     init_github!
     data = JSON.dump(open_pull_requests.group_by { |pr| pr[:repo_name] })
-    file = Tempfile.new('prs')
-    file.write(data)
-    file.close
-    FileUtils.mv(file.path, "#{data_dir}/prs.json")
+    DataRepository.save('prs', data)
   end
 
 private
-  attr_reader :org_name, :github, :oauth_token, :data_dir
+  attr_reader :org_name, :github, :oauth_token
 
   def init_github!
     @github = Octokit::Client.new(
