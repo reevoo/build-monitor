@@ -11,6 +11,9 @@ class Kitten
       passing: [
         'http://www.cutecatgifs.com/wp-content/uploads/2013/12/tumblr_mxd8jmQ8X71rf3vado3_400.gif',
         'http://media.giphy.com/media/HGyncAYumiU4o/giphy.gif',
+        'http://www.lovethispic.com/uploaded_images/149300-Happy-Christmas-Kitty.gif',
+        'https://media.giphy.com/media/lBGAoXsXxb0ty/giphy.gif',
+
       ],
     },
     nil => {
