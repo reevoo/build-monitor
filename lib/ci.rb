@@ -1,9 +1,10 @@
 require 'tempfile'
 require 'fileutils'
 require 'config'
+require 'open-uri'
 
 class CI
-  def initialize(opts=Config.config)
+  def initialize(opts=Conf.config)
     @url = opts.fetch(:url, "http://ci/api/json?tree=jobs[name,builds[timestamp,result,building]]")
     @ignored_projects = opts[:ignored_projects] || []
     @data_dir = opts.fetch(:data_dir)

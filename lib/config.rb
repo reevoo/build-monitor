@@ -1,10 +1,10 @@
 require 'yaml'
 
-module Config
+module Conf
   extend self
 
   def config
-    @config ||= YAML.load(File.read(config_file_name))
+    @config ||= YAML.load(File.read(config_path))
   end
 
   private

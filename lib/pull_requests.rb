@@ -6,7 +6,7 @@ require 'fileutils'
 require 'config'
 
 class PullRequests
-  def initialize(opts=Config.config)
+  def initialize(opts=Conf.config)
     @oauth_token = opts.fetch(:oauth_token)
     @org_name = opts.fetch(:org_name)
     @data_dir = opts.fetch(:data_dir)
