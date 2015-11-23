@@ -9,7 +9,7 @@ module DataRepository
   end
 
   def read(name)
-    File.read("#{data_dir}/#{name}.json")
+    File.open("#{data_dir}/#{name}.json", "r:utf-8", &:read)
   end
 
   def data_dir
